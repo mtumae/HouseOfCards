@@ -1,6 +1,5 @@
 # Video to ASCII converter
 ---
-
 To run locally, simply run the vidtoascii.py file in your terminal after cloning.
 
 
