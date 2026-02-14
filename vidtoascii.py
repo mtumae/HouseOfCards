@@ -3,6 +3,11 @@ from PIL import Image
 import random
 import os
 from bisect import bisect
+import time
+
+root =  os.path.dirname(os.path.abspath(__file__))
+
+
 
 #----------------------------------------------------------
 # greyscale.. the following strings represent
@@ -20,7 +25,7 @@ greyscale = [
             "mdK4ZGbNDXY5P*Q",
             "W8KMA",
             "#%$"
-            ]
+        ]
 
 #----------------------------------------------------------
 # using the bisect class to put luminosity values
@@ -34,7 +39,6 @@ greyscale = [
 zonebounds=[36,72,108,144,180,216,252]
 cam=cv2.VideoCapture(0)
 
-
 frame_width = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
@@ -47,35 +51,29 @@ for i in range(30):
     ret, frame = cam.read()
     out.write(frame)
     cv2.imshow('Camera', frame)
-    cv2.imwrite(f'videoframe{i}.png',frame)
+    cv2.imwrite(os.path.join(root, 'videoframe{i}.jpeg'),frame)
 
 cam.release()
 out.release()
 cv2.destroyAllWindows()
 
-# ---------------------------------------------------------
-# open image and resize
-# experiment with aspect ratios according to font
-# ---------------------------------------------------------
 
-for i in range(30):
-    im=Image.open(f"videoframe{i}.png", mode='r')
-    im=im.resize((160, 90),Image.BICUBIC)
-    im=im.convert("L")
+#frames_root = os.path.join(root, 'frames')
 
-    
-    str=""
-    for y in range(0,im.size[1]):
-        for x in range(0,im.size[0]):
-            lum=255-im.getpixel((x,y))
-            row=bisect(zonebounds,lum)
-            possibles=greyscale[row]
-            str=str+possibles[random.randint(0,len(possibles)-1)]
-        str=str+"\n"   
-    print(str)
-    os.system('cls' if os.name == 'nt' else 'clear') #https://stackoverflow.com/questions/2084508/clear-the-terminal-in-python
+while True:
+    # open frame buffer, check if it has files, if not throw error
+    for i in range(30-1):
+        im=Image.open(os.path.join(root, "videoframe{i}.jpeg"), mode='r')
+        im=im.resize((200, 100),Image.BILINEAR)# 300, 190
+        im=im.convert("L")
+        str=""
+        for y in range(0,im.size[1]):
+            for x in range(0,im.size[0]):
+                lum=255-im.getpixel((x,y))
+                row=bisect(zonebounds,lum)
+                possibles=greyscale[row]
+                str=str+possibles[random.randint(0,len(possibles)-1)]
+            str=str+"\n"   
+        print(str)
+        os.system('cls' if os.name == 'nt' else 'clear') 
 
-
-
-# Algorithm for converting the pixels to strings based on their luminosity:
-# https://stevendkay.wordpress.com/2009/09/08/generating-ascii-art-from-photographs-in-python/ 

@@ -13,6 +13,7 @@ out = cv2.VideoWriter('output.mp4', fourcc, 20.0,
 (frame_width,frame_height))
 
 
+ 
 for i in range(10):
     ret, frame = cam.read()
     out.write(frame)
@@ -26,6 +27,6 @@ cam.release()
 out.release()
 cv2.destroyAllWindows()
 
-#1. save each frame of the video 1 by 1😭
-#2. pass each frame through photo.py and convert it 🤔
+#1. each frameshot is a string 🤯
+#2. pass each frame through converter  🤔
 #3. play it frame by frame like an animation 👌
