@@ -12,15 +12,19 @@
 
 1. Install all requirements
 ```bash
-pip install -r requirements.txt
+    pip install -r requirements.txt
 ```
 
 
 2. Run the photo test:
 ```bash
-py test.py 
+    py test.py 
 ```
 
+3. if that succeeds, you can run the video:
+```bash
+    py vidtoascii.py
+```
 
 ---
 
