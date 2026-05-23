@@ -25,6 +25,7 @@ One of the major improvements was using numpy LUTs to convert the pixel values t
 1. Install all requirements
 ```bash
     pip install -r requirements.txt
+    pip install -r requirements.txt
 ```
 
 2. Run the converter:
